@@ -1,0 +1,204 @@
+/* ✨ Animations & Effects */
+
+/* ================= FADE ANIMATIONS ================= */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.fade-in { animation: fadeIn 0.5s ease-in; }
+.fade-out { animation: fadeOut 0.5s ease-out; }
+
+/* ================= SLIDE ANIMATIONS ================= */
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-left { animation: slideInLeft 0.5s ease-out; }
+.slide-in-right { animation: slideInRight 0.5s ease-out; }
+.slide-in-up { animation: slideInUp 0.5s ease-out; }
+
+/* ================= BOUNCE ANIMATIONS ================= */
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.bounce { animation: bounce 0.6s ease-in-out infinite; }
+.pulse { animation: pulse 1.5s ease-in-out infinite; }
+
+/* ================= SCALE ANIMATIONS ================= */
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes scaleDown {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(0.95); opacity: 0; }
+}
+
+.scale-up { animation: scaleUp 0.3s ease-out; }
+.scale-down { animation: scaleDown 0.3s ease-out; }
+
+/* ================= ROTATE ANIMATIONS ================= */
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.spin { animation: spin 1s linear infinite; }
+.spin-reverse { animation: spin-reverse 1s linear infinite; }
+
+/* ================= HOVER EFFECTS ================= */
+
+.hover-scale:hover { transform: scale(1.05); }
+.hover-shadow:hover { box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); }
+.hover-translate:hover { transform: translateY(-5px); }
+.hover-bright:hover { filter: brightness(1.1); }
+
+/* ================= CARD ANIMATIONS ================= */
+
+.card-hover {
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ================= BUTTON ANIMATIONS ================= */
+
+.btn-animate {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-animate::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-animate:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* ================= LOADING SPINNER ================= */
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* ================= GRADIENT ANIMATIONS ================= */
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gradient-animate {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* ================= TYPING ANIMATION ================= */
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  0%, 49% { border-right-color: transparent; }
+  50%, 100% { border-right-color: #667eea; }
+}
+
+.typing {
+  overflow: hidden;
+  border-right: 3px solid #667eea;
+  white-space: nowrap;
+  animation: typing 3.5s steps(40, end), blink 0.75s step-end infinite;
+}
+
+/* ================= TOAST/NOTIFICATION ANIMATIONS ================= */
+
+@keyframes slideInNotification {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.notification {
+  animation: slideInNotification 0.3s ease-out;
+}

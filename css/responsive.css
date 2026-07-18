@@ -1,0 +1,156 @@
+/* 📱 Responsive Design - ปรับให้ใช้ได้ทุกอุปกรณ์ */
+
+/* ================= MOBILE FIRST (320px - 768px) ================= */
+
+@media (max-width: 768px) {
+  /* Typography */
+  h1 { font-size: 24px !important; }
+  h2 { font-size: 20px !important; }
+  h3 { font-size: 18px !important; }
+
+  /* Spacing */
+  .container-fluid { padding: 10px !important; }
+  .card { margin-bottom: 15px; }
+
+  /* Navigation */
+  .navbar-collapse { padding-top: 10px; }
+  .navbar-brand { font-size: 16px !important; }
+
+  /* Tables */
+  .table { font-size: 12px; }
+  .table th, .table td { padding: 8px !important; }
+
+  /* Forms */
+  .form-control { font-size: 16px; padding: 12px 10px; }
+  .btn { padding: 10px 15px; font-size: 14px; }
+
+  /* Cards */
+  .stat-card { margin: 10px 0; }
+  .stat-card .stat-number { font-size: 24px; }
+
+  /* Grid */
+  .row > [class*="col-"] { padding: 5px; }
+
+  /* Modal */
+  .modal-body { padding: 15px; }
+
+  /* Images */
+  img { max-width: 100% !important; height: auto; }
+
+  /* Sidebar */
+  .sidebar { width: 100% !important; }
+}
+
+/* ================= TABLET (769px - 1024px) ================= */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Typography */
+  h1 { font-size: 28px !important; }
+  h2 { font-size: 24px !important; }
+
+  /* Container */
+  .container { max-width: 750px; }
+  .container-lg { max-width: 900px; }
+
+  /* Tables */
+  .table { font-size: 13px; }
+  .table th, .table td { padding: 12px !important; }
+
+  /* Cards */
+  .stat-card { margin: 10px 5px; }
+  .stat-card .stat-number { font-size: 28px; }
+}
+
+/* ================= DESKTOP (1025px+) ================= */
+
+@media (min-width: 1025px) {
+  /* Container */
+  .container { max-width: 1200px; }
+  .container-lg { max-width: 1200px; }
+
+  /* Grid */
+  .col-desktop { width: 100%; }
+
+  /* Sidebar */
+  .sidebar { width: 250px; position: fixed; height: 100vh; overflow-y: auto; }
+  .main-content { margin-left: 250px; }
+
+  /* Cards */
+  .stat-card { margin: 10px 5px; }
+  .stat-card .stat-number { font-size: 36px; }
+
+  /* Tables */
+  .table { font-size: 14px; }
+  .table thead { position: sticky; top: 0; }
+}
+
+/* ================= LANDSCAPE ORIENTATION ================= */
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .navbar { padding: 5px 0 !important; }
+  h1 { font-size: 18px !important; margin: 5px 0 !important; }
+  .card { margin: 5px 0 !important; padding: 10px !important; }
+}
+
+/* ================= PRINT STYLES ================= */
+
+@media print {
+  body { background: white; }
+  .no-print { display: none !important; }
+  .navbar, .footer, .sidebar { display: none !important; }
+  .main-content { margin-left: 0 !important; }
+  .card { break-inside: avoid; page-break-inside: avoid; }
+  a { text-decoration: underline; }
+}
+
+/* ================= SMALL PHONES (320px - 480px) ================= */
+
+@media (max-width: 480px) {
+  /* Typography */
+  h1 { font-size: 20px !important; }
+  p { font-size: 13px; }
+
+  /* Buttons */
+  .btn { width: 100%; margin-bottom: 10px; }
+
+  /* Tables - Stack on mobile */
+  .table { display: block; }
+  .table thead { display: none; }
+  .table tbody { display: block; }
+  .table tr { display: block; margin-bottom: 15px; border: 1px solid #ddd; }
+  .table td {
+    display: block;
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+    border: none;
+  }
+  .table td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 6px;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  /* Forms */
+  .form-group { margin-bottom: 15px; }
+  .input-group { flex-direction: column; }
+  .input-group-text { border-radius: 0 0 4px 4px; border-top: none; }
+
+  /* Modal */
+  .modal-dialog { margin: 10px; }
+  .modal-content { max-height: 90vh; overflow-y: auto; }
+}
+
+/* ================= ACCESSIBILITY ================= */
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+@media (prefers-color-scheme: dark) {
+  body { background-color: #1e1e1e; color: #e0e0e0; }
+  .card { background-color: #2d2d2d; color: #e0e0e0; }
+  .table { background-color: #2d2d2d; }
+}
