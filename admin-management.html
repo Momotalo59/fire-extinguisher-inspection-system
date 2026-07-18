@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>👥 จัดการข้อมูล - ระบบตรวจเช็คถังดับเพลิง</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/responsive.css" rel="stylesheet">
+  <link href="css/animations.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-fire-extinguisher me-2"></i>ระบบตรวจเช็คถังดับเพลิง
+      </a>
+      <div class="ms-auto">
+        <a href="dashboard.html" class="btn btn-sm btn-outline-primary me-2">
+          <i class="fas fa-arrow-left me-1"></i>กลับหน้าแรก
+        </a>
+        <button class="btn btn-sm btn-outline-danger" onclick="logout()">
+          <i class="fas fa-sign-out-alt me-1"></i>ออกจากระบบ
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container-fluid">
+    <div class="row mt-4">
+      <div class="col-12">
+        <h2 class="mb-4"><i class="fas fa-cog me-2"></i>ระบบบริหารจัดการ</h2>
+
+        <!-- Tabs -->
+        <ul class="nav nav-tabs mb-4" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#fire-extinguishers" role="tab">
+              <i class="fas fa-water me-2"></i>จัดการถังดับเพลิง
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#users" role="tab">
+              <i class="fas fa-users me-2"></i>จัดการผู้ใช้งาน
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#settings" role="tab">
+              <i class="fas fa-sliders-h me-2"></i>ตั้งค่า
+            </a>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+          <!-- Tab 1: Fire Extinguishers -->
+          <div class="tab-pane fade show active" id="fire-extinguishers" role="tabpanel">
+            <div class="card">
+              <div class="card-header">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addExtinguisherModal">
+                  <i class="fas fa-plus me-2"></i>เพิ่มถังใหม่
+                </button>
+                <button class="btn btn-info ms-2">
+                  <i class="fas fa-upload me-2"></i>Import Excel
+                </button>
+                <button class="btn btn-warning ms-2">
+                  <i class="fas fa-download me-2"></i>Export Excel
+                </button>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>รหัสถัง</th>
+                        <th>ประเภท</th>
+                        <th>ขนาด</th>
+                        <th>สถานที่</th>
+                        <th>วันหมดอายุ</th>
+                        <th>สถานะ</th>
+                        <th>ดำเนินการ</th>
+                      </tr>
+                    </thead>
+                    <tbody id="extinguishers-tbody">
+                      <tr>
+                        <td colspan="7" class="text-center text-muted">
+                          <i class="fas fa-spinner spin me-2"></i>กำลังโหลดข้อมูล...
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Users -->
+          <div class="tab-pane fade" id="users" role="tabpanel">
+            <div class="card">
+              <div class="card-header">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                  <i class="fas fa-user-plus me-2"></i>เพิ่มผู้ใช้งาน
+                </button>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>ชื่อ</th>
+                        <th>อีเมล</th>
+                        <th>บทบาท</th>
+                        <th>สถานะ</th>
+                        <th>ดำเนินการ</th>
+                      </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                      <tr>
+                        <td colspan="5" class="text-center text-muted">
+                          <i class="fas fa-spinner spin me-2"></i>กำลังโหลดข้อมูล...
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 3: Settings -->
+          <div class="tab-pane fade" id="settings" role="tabpanel">
+            <div class="card">
+              <div class="card-header">⚙️ ตั้งค่าระบบ</div>
+              <div class="card-body">
+                <div class="alert alert-info">
+                  <i class="fas fa-info-circle me-2"></i>
+                  ฟีเจอร์นี้จะเพิ่มเติมในเวอร์ชันถัดไป
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Extinguisher Modal -->
+  <div class="modal fade" id="addExtinguisherModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">เพิ่มถังดับเพลิงใหม่</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted">ฟีเจอร์นี้จะเพิ่มเติมในเวอร์ชันถัดไป</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add User Modal -->
+  <div class="modal fade" id="addUserModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">เพิ่มผู้ใช้งานใหม่</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p class="text-muted">ฟีเจอร์นี้จะเพิ่มเติมในเวอร์ชันถัดไป</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js"></script>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+
+  <script>
+    // โหลดรายการถังดับเพลิง
+    async function loadExtinguishers() {
+      try {
+        const snapshot = await firebase.firestore().collection('fireExtinguishers').get();
+        const tbody = document.getElementById('extinguishers-tbody');
+        tbody.innerHTML = '';
+
+        if (snapshot.empty) {
+          tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">ไม่มีข้อมูล</td></tr>';
+          return;
+        }
+
+        snapshot.forEach(doc => {
+          const ext = doc.data();
+          const row = tbody.insertRow();
+          row.innerHTML = `
+            <td>${ext.id}</td>
+            <td>${ext.type}</td>
+            <td>${ext.capacity}</td>
+            <td>${ext.location.building}</td>
+            <td>${formatThaiDate(ext.expiryDate)}</td>
+            <td><span class="badge bg-success">${ext.status}</span></td>
+            <td>
+              <button class="btn btn-sm btn-warning" title="แก้ไข">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" title="ลบ">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          `;
+        });
+      } catch (error) {
+        console.error('Load extinguishers error:', error);
+      }
+    }
+
+    // โหลดรายการผู้ใช้งาน
+    async function loadUsers() {
+      try {
+        const snapshot = await firebase.firestore().collection('users').get();
+        const tbody = document.getElementById('users-tbody');
+        tbody.innerHTML = '';
+
+        if (snapshot.empty) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">ไม่มีข้อมูล</td></tr>';
+          return;
+        }
+
+        snapshot.forEach(doc => {
+          const user = doc.data();
+          const row = tbody.insertRow();
+          row.innerHTML = `
+            <td>${user.displayName}</td>
+            <td>${user.email}</td>
+            <td><span class="badge bg-info">${user.role}</span></td>
+            <td><span class="badge bg-success">${user.status}</span></td>
+            <td>
+              <button class="btn btn-sm btn-warning" title="แก้ไข">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" title="ลบ">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          `;
+        });
+      } catch (error) {
+        console.error('Load users error:', error);
+      }
+    }
+
+    // โหลดเมื่อเปิดหน้า
+    window.addEventListener('load', () => {
+      checkAuth().then(user => {
+        if (!user) {
+          window.location.href = 'index.html';
+          return;
+        }
+        loadExtinguishers();
+        loadUsers();
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📄 รายงาน - ระบบตรวจเช็คถังดับเพลิง</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/responsive.css" rel="stylesheet">
+  <link href="css/animations.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-fire-extinguisher me-2"></i>ระบบตรวจเช็คถังดับเพลิง
+      </a>
+      <div class="ms-auto">
+        <a href="dashboard.html" class="btn btn-sm btn-outline-primary me-2">
+          <i class="fas fa-arrow-left me-1"></i>กลับหน้าแรก
+        </a>
+        <button class="btn btn-sm btn-outline-danger" onclick="logout()">
+          <i class="fas fa-sign-out-alt me-1"></i>ออกจากระบบ
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container-fluid">
+    <div class="row mt-4">
+      <div class="col-lg-8 offset-lg-2">
+        <h2 class="mb-4"><i class="fas fa-file-pdf me-2"></i>สร้างรายงาน</h2>
+
+        <!-- Monthly Report -->
+        <div class="card mb-4">
+          <div class="card-header bg-primary text-white">
+            📊 รายงานรายเดือน
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">เดือน</label>
+                <select class="form-control" id="monthly-month">
+                  <option value="">-- เลือกเดือน --</option>
+                  <option value="1">มกราคม</option>
+                  <option value="2">กุมภาพันธ์</option>
+                  <option value="3">มีนาคม</option>
+                  <option value="4">เมษายน</option>
+                  <option value="5">พฤษภาคม</option>
+                  <option value="6">มิถุนายน</option>
+                  <option value="7">กรกฎาคม</option>
+                  <option value="8">สิงหาคม</option>
+                  <option value="9">กันยายน</option>
+                  <option value="10">ตุลาคม</option>
+                  <option value="11">พฤศจิกายน</option>
+                  <option value="12">ธันวาคม</option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">ปี</label>
+                <input type="number" class="form-control" id="monthly-year" value="" min="2020">
+              </div>
+            </div>
+            <button class="btn btn-primary w-100" onclick="generateMonthlyReport()">
+              <i class="fas fa-download me-2"></i>สร้าง PDF รายเดือน
+            </button>
+          </div>
+        </div>
+
+        <!-- Yearly Report -->
+        <div class="card mb-4">
+          <div class="card-header bg-success text-white">
+            📈 รายงานรายปี
+          </div>
+          <div class="card-body">
+            <div class="mb-3">
+              <label class="form-label">ปี</label>
+              <input type="number" class="form-control" id="yearly-year" value="" min="2020">
+            </div>
+            <button class="btn btn-success w-100" onclick="generateYearlyReport()">
+              <i class="fas fa-download me-2"></i>สร้าง PDF รายปี
+            </button>
+          </div>
+        </div>
+
+        <!-- Export Data -->
+        <div class="card">
+          <div class="card-header bg-info text-white">
+            💾 ส่งออกข้อมูล
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 mb-2">
+                <button class="btn btn-info w-100" onclick="alert('ฟีเจอร์นี้จะเพิ่มเติมในเวอร์ชันถัดไป')">
+                  <i class="fas fa-file-excel me-2"></i>ส่งออก Excel
+                </button>
+              </div>
+              <div class="col-md-6 mb-2">
+                <button class="btn btn-secondary w-100" onclick="alert('ฟีเจอร์นี้จะเพิ่มเติมในเวอร์ชันถัดไป')">
+                  <i class="fas fa-file-csv me-2"></i>ส่งออก CSV
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js"></script>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/reports-generator.js"></script>
+
+  <script>
+    window.addEventListener('load', () => {
+      checkAuth().then(user => {
+        if (!user) {
+          window.location.href = 'index.html';
+          return;
+        }
+        document.getElementById('monthly-year').value = new Date().getFullYear();
+        document.getElementById('yearly-year').value = new Date().getFullYear();
+      });
+    });
+  </script>
+</body>
+</html>

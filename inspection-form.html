@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✅ ฟอร์มตรวจเช็ค - ระบบตรวจเช็คถังดับเพลิง</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/responsive.css" rel="stylesheet">
+  <link href="css/animations.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-fire-extinguisher me-2"></i>ระบบตรวจเช็คถังดับเพลิง
+      </a>
+      <div class="ms-auto">
+        <button class="btn btn-sm btn-outline-danger" onclick="logout()">
+          <i class="fas fa-sign-out-alt me-1"></i>ออกจากระบบ
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container-fluid">
+    <div class="row mt-4">
+      <div class="col-lg-10 offset-lg-1">
+        <!-- Header -->
+        <h2 class="mb-4"><i class="fas fa-clipboard-check me-2"></i>ฟอร์มตรวจเช็คถังดับเพลิง</h2>
+
+        <!-- Extinguisher Info -->
+        <div class="card mb-4">
+          <div class="card-header bg-info text-white">
+            ℹ️ ข้อมูลถังดับเพลิง
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <strong>รหัสถัง:</strong>
+                <p id="ext-id">-</p>
+              </div>
+              <div class="col-md-3">
+                <strong>ประเภท:</strong>
+                <p id="ext-type">-</p>
+              </div>
+              <div class="col-md-3">
+                <strong>ขนาด:</strong>
+                <p id="ext-capacity">-</p>
+              </div>
+              <div class="col-md-3">
+                <strong>สถานที่:</strong>
+                <p id="ext-location">-</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inspection Form -->
+        <form id="inspectionForm" onsubmit="submitInspection(event)">
+          <!-- Basic Info -->
+          <div class="card mb-4">
+            <div class="card-header">📋 ข้อมูลการตรวจ</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">ประเภทการตรวจ</label>
+                  <select class="form-control" id="inspection-type" required>
+                    <option value="">-- เลือก --</option>
+                    <option value="รายเดือน">รายเดือน</option>
+                    <option value="ก่อนเปิดอาคาร">ก่อนเปิดอาคาร</option>
+                    <option value="ประจำปี">ประจำปี</option>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">วันที่ตรวจ</label>
+                  <input type="date" class="form-control" value="" disabled>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Checklist -->
+          <div class="card mb-4">
+            <div class="card-header">✅ เช็คลิสต์ตรวจเช็ค</div>
+            <div class="card-body">
+              <!-- Pressure -->
+              <div class="mb-3">
+                <label class="form-label"><i class="fas fa-gauge-high me-2"></i>แรงดัน</label>
+                <div class="row">
+                  <div class="col-md-4">
+                    <select class="form-control" id="pressure-status" required>
+                      <option value="">-- สถานะ --</option>
+                      <option value="ปกติ">ปกติ</option>
+                      <option value="ผิดปกติ">ผิดปกติ</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <input type="text" class="form-control" id="pressure-value" placeholder="เช่น 15 Bar">
+                  </div>
+                  <div class="col-md-4">
+                    <input type="text" class="form-control" id="pressure-notes" placeholder="หมายเหตุ">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Seal -->
+              <div class="mb-3">
+                <label class="form-label"><i class="fas fa-check-circle me-2"></i>ซีล</label>
+                <select class="form-control" id="seal-status" required>
+                  <option value="">-- สถานะ --</option>
+                  <option value="ปกติ">ปกติ</option>
+                  <option value="ผิดปกติ">ผิดปกติ</option>
+                </select>
+                <input type="text" class="form-control mt-2" id="seal-notes" placeholder="หมายเหตุ">
+              </div>
+
+              <!-- Pin -->
+              <div class="mb-3">
+                <label class="form-label"><i class="fas fa-lock me-2"></i>สลัก</label>
+                <select class="form-control" id="pin-status" required>
+                  <option value="">-- สถานะ --</option>
+                  <option value="ปกติ">ปกติ</option>
+                  <option value="ผิดปกติ">ผิดปกติ</option>
+                </select>
+                <input type="text" class="form-control mt-2" id="pin-notes" placeholder="หมายเหตุ">
+              </div>
+
+              <!-- Hose -->
+              <div class="mb-3">
+                <label class="form-label"><i class="fas fa-water me-2"></i>สายฉีด</label>
+                <select class="form-control" id="hose-status" required>
+                  <option value="">-- สถานะ --</option>
+                  <option value="ปกติ">ปกติ</option>
+                  <option value="ผิดปกติ">ผิดปกติ</option>
+                </select>
+                <input type="text" class="form-control mt-2" id="hose-notes" placeholder="หมายเหตุ">
+              </div>
+
+              <!-- Nozzle -->
+              <div class="mb-3">
+                <label class="form-label"><i class="fas fa-fire me-2"></i>หัวฉีด</label>
+                <select class="form-control" id="nozzle-status" required>
+                  <option value="">-- สถานะ --</option>
+                  <option value="ปกติ">ปกติ</option>
+                  <option value="ผิดปกติ">ผิดปกติ</option>
+                </select>
+                <input type="text" class="form-control mt-2" id="nozzle-notes" placeholder="หมายเหตุ">
+              </div>
+
+              <!-- Cylinder -->
+              <div class="mb-3">
+                <label class="form-label"><i class="fas fa-box me-2"></i>ตัวถัง</label>
+                <select class="form-control" id="cylinder-status" required>
+                  <option value="">-- สถานะ --</option>
+                  <option value="ปกติ">ปกติ</option>
+                  <option value="ผิดปกติ">ผิดปกติ</option>
+                </select>
+                <input type="text" class="form-control mt-2" id="cylinder-notes" placeholder="หมายเหตุ">
+              </div>
+
+              <!-- Rust -->
+              <div class="mb-3">
+                <label class="form-label"><i class="fas fa-triangle-exclamation me-2"></i>สนิม</label>
+                <select class="form-control" id="rust-status" required>
+                  <option value="">-- สถานะ --</option>
+                  <option value="ไม่มี">ไม่มี</option>
+                  <option value="มี">มี</option>
+                </select>
+                <input type="text" class="form-control mt-2" id="rust-notes" placeholder="หมายเหตุ">
+              </div>
+
+              <!-- Dent -->
+              <div class="mb-3">
+                <label class="form-label"><i class="fas fa-hammer me-2"></i>รอยบุบ</label>
+                <select class="form-control" id="dent-status" required>
+                  <option value="">-- สถานะ --</option>
+                  <option value="ไม่มี">ไม่มี</option>
+                  <option value="มี">มี</option>
+                </select>
+                <input type="text" class="form-control mt-2" id="dent-notes" placeholder="หมายเหตุ">
+              </div>
+
+              <!-- Label -->
+              <div class="mb-3">
+                <label class="form-label"><i class="fas fa-tag me-2"></i>ป้ายคำแนะนำ</label>
+                <select class="form-control" id="label-status" required>
+                  <option value="">-- สถานะ --</option>
+                  <option value="ชัดเจน">ชัดเจน</option>
+                  <option value="เสื่อมสภาพ">เสื่อมสภาพ</option>
+                </select>
+                <input type="text" class="form-control mt-2" id="label-notes" placeholder="หมายเหตุ">
+              </div>
+            </div>
+          </div>
+
+          <!-- Photos -->
+          <div class="card mb-4">
+            <div class="card-header">📸 อัปโหลดรูปภาพ</div>
+            <div class="card-body">
+              <input type="file" id="photo-input" class="form-control" multiple accept="image/*" capture>
+              <div id="image-preview" class="mt-3"></div>
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div class="card mb-4">
+            <div class="card-header">📝 หมายเหตุ</div>
+            <div class="card-body">
+              <textarea class="form-control" id="notes" rows="4" placeholder="หมายเหตุเพิ่มเติม"></textarea>
+            </div>
+          </div>
+
+          <!-- Signature -->
+          <div class="card mb-4">
+            <div class="card-header">✍️ ลายเซ็น</div>
+            <div class="card-body">
+              <canvas id="signature-canvas" style="border: 1px solid #ddd; border-radius: 8px; width: 100%; height: 200px;"></canvas>
+              <div class="mt-3">
+                <button type="button" class="btn btn-outline-secondary" onclick="clearSignature()">
+                  <i class="fas fa-times me-2"></i>ล้างลายเซ็น
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="mb-4">
+            <button type="submit" class="btn btn-danger btn-lg w-100">
+              <i class="fas fa-check me-2"></i>บันทึกผลการตรวจ
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js"></script>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/gps-location.js"></script>
+  <script src="js/camera-upload.js"></script>
+  <script src="js/signature-pad.js"></script>
+  <script src="js/inspection.js"></script>
+
+  <script>
+    window.addEventListener('load', () => {
+      checkAuth().then(user => {
+        if (!user) {
+          window.location.href = 'index.html';
+          return;
+        }
+        loadExtinguisherData();
+        initSignaturePad();
+        setupMultipleImageCapture('photo-input', 'image-preview');
+        document.querySelector('.form-control:disabled').valueAsDate = new Date();
+      });
+    });
+  </script>
+</body>
+</html>

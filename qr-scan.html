@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔍 สแกน QR Code - ระบบตรวจเช็คถังดับเพลิง</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/responsive.css" rel="stylesheet">
+  <link href="css/animations.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-fire-extinguisher me-2"></i>ระบบตรวจเช็คถังดับเพลิง
+      </a>
+      <div class="ms-auto">
+        <a href="dashboard.html" class="btn btn-sm btn-outline-primary me-2">
+          <i class="fas fa-arrow-left me-1"></i>กลับหน้าแรก
+        </a>
+        <button class="btn btn-sm btn-outline-danger" onclick="logout()">
+          <i class="fas fa-sign-out-alt me-1"></i>ออกจากระบบ
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container-fluid">
+    <div class="row mt-4">
+      <div class="col-lg-8 offset-lg-2">
+        <div class="card">
+          <div class="card-header">
+            🔍 สแกน QR Code ของถังดับเพลิง
+          </div>
+          <div class="card-body text-center">
+            <!-- Video element for camera -->
+            <div class="mb-4" style="background: #f0f0f0; border-radius: 8px; padding: 20px;">
+              <video id="qr-scanner-video" style="width: 100%; max-width: 300px; border-radius: 8px; display: none;"></video>
+              <canvas id="qr-scanner-canvas" style="display: none;"></canvas>
+              <div id="qr-scanner-placeholder" style="width: 100%; max-width: 300px; height: 300px; background: #e9ecef; border-radius: 8px; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-camera fa-3x text-muted"></i>
+              </div>
+            </div>
+
+            <!-- Start Scanner Button -->
+            <button class="btn btn-danger btn-lg mb-3" onclick="startQRScanner()">
+              <i class="fas fa-play me-2"></i>เริ่มสแกน QR Code
+            </button>
+            <button class="btn btn-secondary btn-lg mb-3 ms-2" onclick="stopQRScanner()">
+              <i class="fas fa-stop me-2"></i>หยุดสแกน
+            </button>
+
+            <hr>
+
+            <!-- Manual Entry -->
+            <h5 class="mt-4 mb-3">หรือป้อนรหัส QR ด้วยตนเอง</h5>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control form-control-lg" id="manual-qr-input" placeholder="ป้อนรหัส QR Code">
+              <button class="btn btn-primary" onclick="handleManualQRInput()">
+                <i class="fas fa-arrow-right me-2"></i>ค้นหา
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsqrcode/0.0.1/jsqrcode-combined.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js"></script>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/qr-handler.js"></script>
+
+  <script>
+    // ตรวจสอบการเข้าสู่ระบบ
+    window.addEventListener('load', () => {
+      checkAuth().then(user => {
+        if (!user) {
+          window.location.href = 'index.html';
+        }
+      });
+    });
+
+    // จัดการการป้อน QR ด้วยตนเอง
+    function handleManualQRInput() {
+      const qrCode = document.getElementById('manual-qr-input').value.trim();
+      if (!qrCode) {
+        showError('ข้อมูลไม่สมบูรณ์', 'กรุณาป้อนรหัส QR Code');
+        return;
+      }
+      handleQRScanned(qrCode);
+    }
+
+    // ป้อน QR จากแป้นพิมพ์
+    document.getElementById('manual-qr-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        handleManualQRInput();
+      }
+    });
+  </script>
+</body>
+</html>
